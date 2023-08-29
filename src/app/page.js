@@ -1,113 +1,179 @@
-import Image from 'next/image'
+"use client";
+
+import { useEffect, useState } from "react";
 
 export default function Home() {
+  const [startDate, setStartDate] = useState("");
+  const [endDate, setEndtDate] = useState("");
+  const [campaignDays, setCampaignDays] = useState(0);
+  const [grossBudget, setGrossBudget] = useState(0);
+  const [comissions, setCommissions] = useState(0);
+  const [result, setResult] = useState(0);
+
+  const onCommissionsChange = (ev) => {
+    const comissions = ev.target.value;
+    if (comissions < 0 || comissions > 100) return;
+    setCommissions(ev.target.value);
+  };
+
+  useEffect(() => {
+    const startDateTemp = new Date(startDate);
+    const endDateTemp = new Date(endDate);
+
+    if (!endDateTemp || !endDateTemp) {
+      setCampaignDays(0);
+    } else {
+      setCampaignDays(
+        Math.ceil((endDateTemp - startDateTemp) / (1000 * 60 * 60 * 24))
+      );
+    }
+  }, [startDate, endDate]);
+
+  useEffect(() => {
+    setResult((grossBudget * comissions) / campaignDays);
+  }, [grossBudget, comissions, startDate, endDate]);
+
   return (
-    <main className="flex min-h-screen flex-col items-center justify-between p-24">
-      <div className="z-10 max-w-5xl w-full items-center justify-between font-mono text-sm lg:flex">
-        <p className="fixed left-0 top-0 flex w-full justify-center border-b border-gray-300 bg-gradient-to-b from-zinc-200 pb-6 pt-8 backdrop-blur-2xl dark:border-neutral-800 dark:bg-zinc-800/30 dark:from-inherit lg:static lg:w-auto  lg:rounded-xl lg:border lg:bg-gray-200 lg:p-4 lg:dark:bg-zinc-800/30">
-          Get started by editing&nbsp;
-          <code className="font-mono font-bold">src/app/page.js</code>
-        </p>
-        <div className="fixed bottom-0 left-0 flex h-48 w-full items-end justify-center bg-gradient-to-t from-white via-white dark:from-black dark:via-black lg:static lg:h-auto lg:w-auto lg:bg-none">
-          <a
-            className="pointer-events-none flex place-items-center gap-2 p-8 lg:pointer-events-auto lg:p-0"
-            href="https://vercel.com?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            By{' '}
-            <Image
-              src="/vercel.svg"
-              alt="Vercel Logo"
-              className="dark:invert"
-              width={100}
-              height={24}
-              priority
+    <main className="flex flex-col justify-center items-center h-screen">
+      <h1>Calculator</h1>
+
+      <form>
+        <div className="flex gap-5">
+          <div className="py-4">
+            <label
+              className="block text-gray-700 text-sm font-bold mb-2"
+              htmlhtmlFor="username"
+            >
+              Start Date
+            </label>
+            <input
+              type="date"
+              className="block w-96 bg-white border border-slate-300 rounded-md py-2 pl-5 pr-3 shadow-sm focus:outline-none focus:border-sky-500 focus:ring-sky-500 focus:ring-1 sm:text-sm"
+              onChange={(ev) => setStartDate(ev.target.value)}
             />
-          </a>
+          </div>
+
+          <div className="py-4">
+            <label
+              className="block text-gray-700 text-sm font-bold mb-2"
+              htmlhtmlFor="username"
+            >
+              Start Date
+            </label>
+            <input
+              type="date"
+              className="block w-96 bg-white border border-slate-300 rounded-md py-2 pl-5 pr-3 shadow-sm focus:outline-none focus:border-sky-500 focus:ring-sky-500 focus:ring-1 sm:text-sm"
+              onChange={(ev) => setEndtDate(ev.target.value)}
+            />
+          </div>
         </div>
-      </div>
 
-      <div className="relative flex place-items-center before:absolute before:h-[300px] before:w-[480px] before:-translate-x-1/2 before:rounded-full before:bg-gradient-radial before:from-white before:to-transparent before:blur-2xl before:content-[''] after:absolute after:-z-20 after:h-[180px] after:w-[240px] after:translate-x-1/3 after:bg-gradient-conic after:from-sky-200 after:via-blue-200 after:blur-2xl after:content-[''] before:dark:bg-gradient-to-br before:dark:from-transparent before:dark:to-blue-700 before:dark:opacity-10 after:dark:from-sky-900 after:dark:via-[#0141ff] after:dark:opacity-40 before:lg:h-[360px] z-[-1]">
-        <Image
-          className="relative dark:drop-shadow-[0_0_0.3rem_#ffffff70] dark:invert"
-          src="/next.svg"
-          alt="Next.js Logo"
-          width={180}
-          height={37}
-          priority
-        />
-      </div>
-
-      <div className="mb-32 grid text-center lg:max-w-5xl lg:w-full lg:mb-0 lg:grid-cols-4 lg:text-left">
-        <a
-          href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-          className="group rounded-lg border border-transparent px-5 py-4 transition-colors hover:border-gray-300 hover:bg-gray-100 hover:dark:border-neutral-700 hover:dark:bg-neutral-800/30"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <h2 className={`mb-3 text-2xl font-semibold`}>
-            Docs{' '}
-            <span className="inline-block transition-transform group-hover:translate-x-1 motion-reduce:transform-none">
-              -&gt;
+        <div className="py-4 items-center">
+          <label
+            className="block text-gray-700 text-sm font-bold mb-2"
+            htmlhtmlFor="username"
+          >
+            Gross Budget
+          </label>
+          <div className="relative w-96">
+            <input
+              type="text"
+              className="block bg-white w-full border border-slate-300 rounded-md py-2 pl-5 pr-3 shadow-sm focus:outline-none focus:border-sky-500 focus:ring-sky-500 focus:ring-1 sm:text-sm"
+              placeholder="0"
+              onChange={(ev) => setGrossBudget(ev.target.value)}
+            />
+            <span className="absolute right-0 top-0 w-10 bg-gray-500 text-white h-full flex items-center justify-center text-sm rounded-r-md">
+              $
             </span>
-          </h2>
-          <p className={`m-0 max-w-[30ch] text-sm opacity-50`}>
-            Find in-depth information about Next.js features and API.
-          </p>
-        </a>
+          </div>
+        </div>
 
-        <a
-          href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          className="group rounded-lg border border-transparent px-5 py-4 transition-colors hover:border-gray-300 hover:bg-gray-100 hover:dark:border-neutral-700 hover:dark:bg-neutral-800 hover:dark:bg-opacity-30"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <h2 className={`mb-3 text-2xl font-semibold`}>
-            Learn{' '}
-            <span className="inline-block transition-transform group-hover:translate-x-1 motion-reduce:transform-none">
-              -&gt;
+        <div className="py-4 items-center">
+          <label
+            className="block text-gray-700 text-sm font-bold mb-2"
+            htmlhtmlFor="username"
+          >
+            Commissions
+          </label>
+          <div className="relative w-96">
+            <input
+              type="number"
+              min={0.0}
+              max={100.0}
+              step={0.01}
+              onChange={onCommissionsChange}
+              className="block w-full bg-white border border-slate-300 rounded-md py-2 pl-5 pr-3 shadow-sm focus:outline-none focus:border-sky-500 focus:ring-sky-500 focus:ring-1 sm:text-sm"
+              placeholder="0"
+            />
+            <span className="absolute right-0 top-0 w-10 bg-gray-500 text-white h-full flex items-center justify-center text-sm rounded-r-md">
+              %
             </span>
-          </h2>
-          <p className={`m-0 max-w-[30ch] text-sm opacity-50`}>
-            Learn about Next.js in an interactive course with&nbsp;quizzes!
-          </p>
-        </a>
+          </div>
+        </div>
+        <div className="py-4">
+          <p className="block text-gray-700 text-sm font-bold mb-2">Pacing</p>
+          <ul className="items-center w-full text-sm font-medium text-gray-900 bg-white border border-gray-200 rounded-lg sm:flex dark:bg-gray-700 dark:border-gray-600 dark:text-white">
+            <li className="w-full border-b border-gray-200 sm:border-b-0 sm:border-r dark:border-gray-600">
+              <div className="flex items-center pl-3">
+                <input
+                  id="horizontal-list-radio-license"
+                  type="radio"
+                  value=""
+                  name="list-radio"
+                  className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-transparent dark:focus:ring-blue-600 dark:ring-offset-gray-700 dark:focus:ring-offset-gray-700 focus:ring-2 dark:bg-gray-600 dark:border-gray-500"
+                />
+                <label
+                  htmlFor="horizontal-list-radio-license"
+                  className="w-full py-3 ml-2 text-sm font-medium text-gray-900 dark:text-gray-300"
+                >
+                  Fast{" "}
+                </label>
+              </div>
+            </li>
+            <li className="w-full border-b border-gray-200 sm:border-b-0 sm:border-r dark:border-gray-600">
+              <div className="flex items-center pl-3">
+                <input
+                  id="horizontal-list-radio-id"
+                  type="radio"
+                  value=""
+                  checked
+                  name="list-radio"
+                  className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-transparent dark:focus:ring-blue-600 dark:ring-offset-gray-700 dark:focus:ring-offset-gray-700 focus:ring-2 dark:bg-gray-600 dark:border-gray-500"
+                />
+                <label
+                  htmlFor="horizontal-list-radio-id"
+                  className="w-full py-3 ml-2 text-sm font-medium text-gray-900 dark:text-gray-300"
+                >
+                  Even
+                </label>
+              </div>
+            </li>
+            <li className="w-full border-b border-gray-200 sm:border-b-0 sm:border-r dark:border-gray-600">
+              <div className="flex items-center pl-3">
+                <input
+                  id="horizontal-list-radio-millitary"
+                  type="radio"
+                  value=""
+                  name="list-radio"
+                  className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-transparent dark:focus:ring-blue-600 dark:ring-offset-gray-700 dark:focus:ring-offset-gray-700 focus:ring-2 dark:bg-gray-600 dark:border-gray-500"
+                />
+                <label
+                  htmlFor="horizontal-list-radio-millitary"
+                  className="w-full py-3 ml-2 text-sm font-medium text-gray-900 dark:text-gray-300"
+                >
+                  Slow
+                </label>
+              </div>
+            </li>
+          </ul>
+        </div>
+      </form>
 
-        <a
-          href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-          className="group rounded-lg border border-transparent px-5 py-4 transition-colors hover:border-gray-300 hover:bg-gray-100 hover:dark:border-neutral-700 hover:dark:bg-neutral-800/30"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <h2 className={`mb-3 text-2xl font-semibold`}>
-            Templates{' '}
-            <span className="inline-block transition-transform group-hover:translate-x-1 motion-reduce:transform-none">
-              -&gt;
-            </span>
-          </h2>
-          <p className={`m-0 max-w-[30ch] text-sm opacity-50`}>
-            Explore the Next.js 13 playground.
-          </p>
-        </a>
-
-        <a
-          href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-          className="group rounded-lg border border-transparent px-5 py-4 transition-colors hover:border-gray-300 hover:bg-gray-100 hover:dark:border-neutral-700 hover:dark:bg-neutral-800/30"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <h2 className={`mb-3 text-2xl font-semibold`}>
-            Deploy{' '}
-            <span className="inline-block transition-transform group-hover:translate-x-1 motion-reduce:transform-none">
-              -&gt;
-            </span>
-          </h2>
-          <p className={`m-0 max-w-[30ch] text-sm opacity-50`}>
-            Instantly deploy your Next.js site to a shareable URL with Vercel.
-          </p>
-        </a>
+      <div className="text-sm font-medium rounded-md  bg-gray-400/30 px-4 py-3 my-5 w-[786px]">
+        {result ? `Result: $${result.toFixed(2)}` : "Result"}
+        <br />
+        {campaignDays && `Days: ${campaignDays}`}
       </div>
     </main>
-  )
+  );
 }
