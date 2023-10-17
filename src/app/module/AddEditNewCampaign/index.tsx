@@ -347,7 +347,11 @@ const AddEditNewCampaign = (props: props) => {
           </div>
         )}
 
-        {toggleEditSaveCampaign && campaign?.grossBudget.toString()}
+        {toggleEditSaveCampaign &&
+          campaign?.grossBudget.toLocaleString("en-US", {
+            style: "currency",
+            currency: "USD",
+          })}
       </td>
       <td className="px-6 py-4">
         {!toggleEditSaveCampaign && (
@@ -373,7 +377,11 @@ const AddEditNewCampaign = (props: props) => {
           </div>
         )}
 
-        {toggleEditSaveCampaign && campaign?.commissions.toString()}
+        {toggleEditSaveCampaign &&
+          campaign?.commissions.toLocaleString("en-US", {
+            style: "currency",
+            currency: "USD",
+          }) + "%"}
       </td>
       <td className="px-6 py-4">
         {!toggleEditSaveCampaign && (
@@ -386,7 +394,17 @@ const AddEditNewCampaign = (props: props) => {
 
         {toggleEditSaveCampaign && campaign?.pacing}
       </td>
-      <td className="px-6 py-4">{result ? result : campaign?.result}</td>
+      <td className="px-6 py-4">
+        {result
+          ? result.toLocaleString("en-US", {
+              style: "currency",
+              currency: "USD",
+            })
+          : campaign?.result.toLocaleString("en-US", {
+              style: "currency",
+              currency: "USD",
+            })}
+      </td>
       <td className="px-6 py-4">
         <Button onClick={handleEditSave}>
           {toggleEditSaveCampaign ? "Edit" : "Save"}
