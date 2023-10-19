@@ -1,8 +1,8 @@
 "use client";
 
-import AddNewClient from "./module/AddNewClient";
-import Campaign from "./module/Campaign";
 import { useAppSelector } from "@/redux/store";
+import AdPlan from "../module/AdPlan";
+import AddNewClient from "../module/AddNewClient";
 
 export default function Home() {
   const clients = useAppSelector((state) => state.projectReducer.projects);
@@ -10,7 +10,7 @@ export default function Home() {
   return (
     <main className="pt-5 pb-10 px-10">
       <div className="justify-between bg-white rounded-md py-5 px-10 flex">
-        <h1 className="pb-2">Pacing Dashboard</h1>
+        <h1 className="pb-2">Planning Dashboard</h1>
         <div>
           <AddNewClient />
         </div>
@@ -21,11 +21,10 @@ export default function Home() {
           className="my-10 pt-8 pb-2 px-10 bg-white rounded-md"
         >
           {clients?.map((client, i) => {
-            return <Campaign key={i} item={client}></Campaign>;
+            return <AdPlan key={i} item={client}></AdPlan>;
           })}
         </div>
       )}
-      
     </main>
   );
 }

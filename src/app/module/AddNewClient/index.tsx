@@ -52,7 +52,7 @@ const AddNewClient = () => {
         <div className="transition-all ease-linear absolute left-0 h-[200px] w-full flex flex-col items-center justify-center">
           <button
             onClick={() => setShowAddNewClient(false)}
-            className="absolute text-red-500 text-2xl hover:cursor-pointer right-5 top-5"
+            className="absolute text-red-500 text-2xl hover:cursor-pointer right-12 top-5"
           >
             <AiOutlineClose />
           </button>

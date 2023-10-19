@@ -12,7 +12,7 @@ type props = {
   item: ProjectItems;
 };
 
-const Project = (props: props) => {
+const Campaign = (props: props) => {
   const ProjectTitle = props.item.title;
   const projectID = useAppSelector((state) => {
     const projctIndex = state.projectReducer.projects.findIndex(
@@ -42,15 +42,15 @@ const Project = (props: props) => {
 
   return (
     <div className="mb-20">
-      <div className="flex justify-between">
-        <h1 className="text-2xl">{ProjectTitle}</h1>
+      <div className="flex justify-between mb-3">
+        <h1 className="text-2xl pl-2">{ProjectTitle}</h1>
         <Button onClick={handleAddNewCampaign} className="text-xs">
           New Campaign <MdCampaign />
         </Button>
       </div>
 
-      <div className="relative overflow-x-auto shadow-md sm:rounded-lg">
-        <table className="w-full my-5 text-sm text-left text-gray-500 ">
+      <div className="relative overflow-x-auto shadow-md sm:rounded-lg px-5">
+        <table className="w-full my-5 text-sm text-left text-gray-500">
           <thead className="text-xs text-gray-700 uppercase bg-gray-50 ">
             <tr>
               <th scope="col" className="px-6 py-3">
@@ -75,7 +75,7 @@ const Project = (props: props) => {
                 Pacing
               </th>
               <th scope="col" className="px-6 py-3">
-                Result
+                Daily Spend
               </th>
               <th scope="col" className="px-6 py-3">
                 Action
@@ -84,17 +84,6 @@ const Project = (props: props) => {
           </thead>
 
           <tbody>
-            {showAddNewCampaign && (
-              <AddEditNewCampaign
-                onCampaignAdded={onCampaignAdded}
-                ProjectItems={{
-                  _project_id: projectID,
-                  title: ProjectTitle,
-                  campaigns: [],
-                }}
-              />
-            )}
-
             {campaigns?.map((campaign: CampaignItems, index: number) => {
               return (
                 <AddEditNewCampaign
@@ -108,6 +97,16 @@ const Project = (props: props) => {
                 />
               );
             })}
+            {showAddNewCampaign && (
+              <AddEditNewCampaign
+                onCampaignAdded={onCampaignAdded}
+                ProjectItems={{
+                  _project_id: projectID,
+                  title: ProjectTitle,
+                  campaigns: [],
+                }}
+              />
+            )}
           </tbody>
         </table>
       </div>
@@ -115,4 +114,4 @@ const Project = (props: props) => {
   );
 };
 
-export default Project;
+export default Campaign;

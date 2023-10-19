@@ -378,10 +378,7 @@ const AddEditNewCampaign = (props: props) => {
         )}
 
         {toggleEditSaveCampaign &&
-          campaign?.commissions.toLocaleString("en-US", {
-            style: "currency",
-            currency: "USD",
-          }) + "%"}
+          campaign?.commissions + "%"}
       </td>
       <td className="px-6 py-4">
         {!toggleEditSaveCampaign && (
