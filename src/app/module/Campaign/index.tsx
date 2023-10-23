@@ -14,12 +14,14 @@ type props = {
 
 const Campaign = (props: props) => {
   const ProjectTitle = props.item.title;
+  console.log(ProjectTitle);
   const projectID = useAppSelector((state) => {
-    const projctIndex = state.projectReducer.projects.findIndex(
+    console.log(state.projectReducer.clients);
+    const projctIndex = state.projectReducer.clients.findIndex(
       (project) => project.title === ProjectTitle
     );
 
-    return state.projectReducer.projects[projctIndex]._project_id;
+    return state.projectReducer.clients[projctIndex]._project_id;
   });
 
   const [showAddNewCampaign, setShowAddNewCampaign] = useState(false);
@@ -29,11 +31,11 @@ const Campaign = (props: props) => {
   };
 
   const campaigns = useAppSelector((state) => {
-    const projectIndex = state.projectReducer.projects.findIndex(
+    const projectIndex = state.projectReducer.clients.findIndex(
       (project) => project.title === ProjectTitle
     );
 
-    return state.projectReducer.projects[projectIndex].campaigns;
+    return state.projectReducer.clients[projectIndex].campaigns;
   });
 
   const onCampaignAdded = () => {

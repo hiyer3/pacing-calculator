@@ -21,11 +21,11 @@ const AdPlan = (props: props) => {
    * Get the project ID to add the plans to a specific project
    */
   const projectID = useAppSelector((state) => {
-    const projctIndex = state.projectReducer.projects.findIndex(
+    const projctIndex = state.projectReducer.clients.findIndex(
       (project) => project.title === ProjectTitle
     );
 
-    return state.projectReducer.projects[projctIndex]._project_id;
+    return state.projectReducer.clients[projctIndex]._project_id;
   });
 
   const handleAddNewPlan = () => {
@@ -33,11 +33,11 @@ const AdPlan = (props: props) => {
   };
 
   const plans = useAppSelector((state) => {
-    const projectIndex = state.projectReducer.projects.findIndex(
+    const projectIndex = state.projectReducer.clients.findIndex(
       (project) => project.title === ProjectTitle
     );
 
-    return state.projectReducer.projects[projectIndex].plans;
+    return state.projectReducer.clients[projectIndex].plans;
   });
 
   const onPlanAdded = () => {

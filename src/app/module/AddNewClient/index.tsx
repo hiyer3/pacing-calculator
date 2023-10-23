@@ -4,7 +4,7 @@ import Button from "@/app/components/Button";
 import { useState } from "react";
 import { HiUserAdd } from "react-icons/hi";
 import { AiOutlineUserAdd, AiOutlineClose } from "react-icons/ai";
-import { addNewProject } from "@/redux/features/projectsSlice";
+import { addClient } from "@/redux/features/projectsSlice";
 import { useDispatch } from "react-redux";
 import { AppDispatch } from "@/redux/store";
 import { v1 as uuidv1 } from "uuid";
@@ -19,11 +19,12 @@ const AddNewClient = () => {
     setShowAddNewClient(true);
   };
 
-  const onSubmit = (ev) => {
+  const onSubmit = (ev) => {  
     ev.preventDefault();
+
     dispatch(
-      addNewProject({
-        projects: [
+      addClient({
+        clients: [
           {
             _project_id: uuidv1(),
             title: clientName,

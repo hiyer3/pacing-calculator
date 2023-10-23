@@ -175,8 +175,8 @@ const AddEditNewPlan = (props: props) => {
       }
 
       const singleProject = {
-        projects: [
-          {
+        clients: [
+          { 
             _project_id: props.projectItems._project_id,
             title: props.projectItems.title,
             plans: [
