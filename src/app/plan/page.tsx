@@ -5,7 +5,7 @@ import AdPlan from "../module/AdPlan";
 import AddNewClient from "../module/AddNewClient";
 
 export default function Home() {
-  const clients = useAppSelector((state) => state.projectReducer.projects);
+  const clients = useAppSelector((state) => state.projectReducer.clients);
 
   return (
     <main className="pt-5 pb-10 px-10">

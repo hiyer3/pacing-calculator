@@ -211,7 +211,7 @@ const AddEditNewCampaign = (props: props) => {
       }
 
       const singleProject = {
-        projects: [
+        clients: [
           {
             _project_id: props.ProjectItems._project_id,
             title: props.ProjectItems.title,
@@ -233,7 +233,6 @@ const AddEditNewCampaign = (props: props) => {
           },
         ],
       };
-      console.log(singleProject);
 
       dispatch(addUpdCampaign(singleProject));
       setToggleEditSaveCampaign(true);
@@ -377,8 +376,7 @@ const AddEditNewCampaign = (props: props) => {
           </div>
         )}
 
-        {toggleEditSaveCampaign &&
-          campaign?.commissions + "%"}
+        {toggleEditSaveCampaign && campaign?.commissions + "%"}
       </td>
       <td className="px-6 py-4">
         {!toggleEditSaveCampaign && (
