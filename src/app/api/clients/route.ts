@@ -1,8 +1,10 @@
 import { connectMongoDB } from "lib/mongodb";
 import MDBClient from "models/MDBClients";
+import { revalidatePath } from "next/cache";
 import { NextResponse } from "next/server";
 
 export async function GET(request: Request) {
+  revalidatePath(request.url)
   await connectMongoDB();
   try {
     const clients = await MDBClient.find({});
