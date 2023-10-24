@@ -11,11 +11,8 @@ const initialState = {} as InitialState;
 export const fetchClients = createAsyncThunk(
   "addashboard/clients",
   async () => {
-    // keep this fetch logic different from other fetch so as to leverage revalidate functionality in nextjs
-    const response: InitialState = await fetch("/api/clients", {
-      next: { revalidate: 600 },
-    }).then((data) => data.json());
-    return response.clients;
+    const allClients = await fetchAllItems();
+    return allClients;
   }
 );
 
@@ -245,7 +242,7 @@ export const clients = createSlice({
  */
 const fetchAllItems = async () => {
   const response: InitialState = await fetch("/api/clients", {
-    next: { revalidate: 0 },
+    cache: "no-store",
   }).then((data) => data.json());
   return response.clients;
 };
