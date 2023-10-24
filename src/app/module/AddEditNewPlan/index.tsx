@@ -1,7 +1,7 @@
 "use client";
 
 import Button from "@/app/components/Button";
-import { addUpdPlan } from "@/redux/features/projectsSlice";
+import { addupdateplan } from "@/redux/features/projectsSlice";
 import { AppDispatch } from "@/redux/store";
 import ProjectItems from "@/types/project";
 import { useEffect, useState } from "react";
@@ -153,7 +153,7 @@ const AddEditNewPlan = (props: props) => {
       if (plan) {
         setPlanName(plan.name);
         setPlatform(plan.platform);
-        setCampaignType(plan.type);
+        setCampaignType(plan.adtype);
         setgrossSpend(plan.grossspend);
         setCommissions(plan.commissions);
         setNetSpend(plan.netspend);
@@ -176,7 +176,7 @@ const AddEditNewPlan = (props: props) => {
 
       const singleProject = {
         clients: [
-          { 
+          {
             _project_id: props.projectItems._project_id,
             title: props.projectItems.title,
             plans: [
@@ -184,7 +184,7 @@ const AddEditNewPlan = (props: props) => {
                 _plan_id: plan?._plan_id ? plan._plan_id : uuidv1(),
                 name: planName,
                 platform,
-                type: adCampaignType,
+                adtype: adCampaignType,
                 grossspend: grossSpend,
                 commissions,
                 netspend: netSpend,
@@ -200,7 +200,7 @@ const AddEditNewPlan = (props: props) => {
       };
       console.log(singleProject);
 
-      dispatch(addUpdPlan(singleProject));
+      dispatch(addupdateplan(singleProject));
       setToggleEditSavePlan(true);
       props.onPlanAdded();
       return;
@@ -266,7 +266,7 @@ const AddEditNewPlan = (props: props) => {
           </select>
         )}
 
-        {toggleEditSavePlan && plan?.type}
+        {toggleEditSavePlan && plan?.adtype}
       </td>
 
       <td className="px-6 py-4">
@@ -370,10 +370,7 @@ const AddEditNewPlan = (props: props) => {
         )}
 
         {toggleEditSavePlan &&
-          plan?.impression.toLocaleString("en-US", {
-            style: "currency",
-            currency: "USD",
-          })}
+          plan?.impression.toLocaleString("en-US")}
       </td>
 
       <td className="px-6 py-4">

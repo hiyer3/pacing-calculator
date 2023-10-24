@@ -4,6 +4,13 @@ import { NextResponse } from "next/server";
 
 export async function GET() {
   await connectMongoDB();
-  const clients = await MDBClient.find({});
-  return NextResponse.json({ clients }, { status: 201 });
+  try {
+    const clients = await MDBClient.find({});
+    return NextResponse.json({ clients }, { status: 201 });
+  } catch (e) {
+    return NextResponse.json(
+      { message: "Error fetching all projects. Please refresh the app." },
+      { status: 201 }
+    );
+  }
 }

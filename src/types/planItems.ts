@@ -2,7 +2,7 @@ type PlanItems = {
     _plan_id: string;
     name: string;
     platform: string;
-    type: string;
+    adtype: string;
     grossspend: number;
     commissions: number;
     netspend: number;

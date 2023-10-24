@@ -7,13 +7,16 @@ import { AppDispatch, useAppSelector } from "@/redux/store";
 import { useEffect } from "react";
 import { fetchClients } from "@/redux/features/projectsSlice";
 import { AiOutlineLoading3Quarters } from "react-icons/ai";
+import { PiFolderUserLight } from "react-icons/pi";
 
 export default function Home() {
   const { clients, loading } = useAppSelector((state) => state.projectReducer);
   const dispatch = useDispatch<AppDispatch>();
 
   useEffect(() => {
-    dispatch(fetchClients());
+    {
+      (!clients || clients?.length == 0) && dispatch(fetchClients());
+    }
   }, []);
 
   return (
@@ -33,10 +36,23 @@ export default function Home() {
             <Campaign key={i} item={client}></Campaign>
           ))}
 
+          {(!clients || clients?.length == 0) &&
+            !loading &&
+            loading != undefined && (
+              <div className="my-10 flex items-center gap-4">
+                <span className="text-4xl">
+                  <PiFolderUserLight />
+                </span>
+                <p className="text-lg">
+                  There are no clients yet, <strong>Add New Client</strong> to
+                  get started.
+                </p>
+              </div>
+            )}
         </div>
       )}
 
-      {loading && (
+      {(loading || loading == undefined) && (
         <div className="h-full fixed w-full justify-center left-0 top-0 flex items-center">
           <span className="animate-spin text-3xl">
             <AiOutlineLoading3Quarters />

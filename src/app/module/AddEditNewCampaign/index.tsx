@@ -1,8 +1,8 @@
 "use client";
 
 import Button from "@/app/components/Button";
-import { addUpdCampaign } from "@/redux/features/projectsSlice";
-import { AppDispatch } from "@/redux/store";
+import { updCampaign } from "@/redux/features/projectsSlice";
+import { AppDispatch, useAppSelector } from "@/redux/store";
 import ProjectItems from "@/types/project";
 import { useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
@@ -47,7 +47,11 @@ const AddEditNewCampaign = (props: props) => {
 
   const dispatch = useDispatch<AppDispatch>();
 
-  //const projects = useAppSelector((state) => state.projectReducer.projects);
+  /*
+   * Get all the clients
+   */
+  let clients = useAppSelector((state) => state.projectReducer.clients);
+
   const campaign =
     props.ProjectItems?.campaigns && props.ProjectItems.campaigns[0];
 
@@ -210,6 +214,7 @@ const AddEditNewCampaign = (props: props) => {
         return;
       }
 
+      // campaign not found, save a new record
       const singleProject = {
         clients: [
           {
@@ -234,7 +239,7 @@ const AddEditNewCampaign = (props: props) => {
         ],
       };
 
-      dispatch(addUpdCampaign(singleProject));
+      dispatch(updCampaign(singleProject));
       setToggleEditSaveCampaign(true);
       props.onCampaignAdded();
 
@@ -395,7 +400,7 @@ const AddEditNewCampaign = (props: props) => {
               style: "currency",
               currency: "USD",
             })
-          : campaign?.result.toLocaleString("en-US", {
+          : campaign?.result?.toLocaleString("en-US", {
               style: "currency",
               currency: "USD",
             })}

@@ -52,6 +52,7 @@ const SystemSidebar = () => {
             <li>
               <Link
                 href="/"
+                onClick={toggleSidebar}
                 className="flex items-center p-2 text-gray-900 rounded-lg hover:bg-gray-100 group"
               >
                 <span className="text-2xl">
@@ -65,6 +66,7 @@ const SystemSidebar = () => {
             <li>
               <Link
                 href="/plan"
+                onClick={toggleSidebar}
                 className="flex items-center p-2 text-gray-900 rounded-lg hover:bg-gray-100 group"
               >
                 <span className="text-xl">

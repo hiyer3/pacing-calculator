@@ -23,7 +23,7 @@ const clientSchema = new Schema(
       type: [
         {
           _plan_id: { type: String },
-          planname: { type: String },
+          name: { type: String },
           platform: { type: String },
           adtype: { type: String },
           grossspend: { type: String },

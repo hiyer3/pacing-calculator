@@ -2,36 +2,53 @@
 
 import Button from "@/app/components/Button";
 import { useState } from "react";
-import { HiUserAdd } from "react-icons/hi";
+import { HiUserAdd, HiX } from "react-icons/hi";
 import { AiOutlineUserAdd, AiOutlineClose } from "react-icons/ai";
+import { Toast } from "flowbite-react";
 import { addClient } from "@/redux/features/projectsSlice";
 import { useDispatch } from "react-redux";
-import { AppDispatch } from "@/redux/store";
+import { AppDispatch, useAppSelector } from "@/redux/store";
 import { v1 as uuidv1 } from "uuid";
 
 const AddNewClient = () => {
+  const { clients } = useAppSelector((state) => state.projectReducer);
   const dispatch = useDispatch<AppDispatch>();
 
   const [clientName, setClientName] = useState("");
   const [showAddNewClient, setShowAddNewClient] = useState(false);
+  const [showToast, setShowToast] = useState(false);
+  const [formError, setFormError] = useState(false);
 
   const handleAddNewClient = () => {
     setShowAddNewClient(true);
   };
 
-  const onSubmit = (ev) => {  
+  const onSubmit = (ev) => {
     ev.preventDefault();
+    setFormError(false);
 
-    dispatch(
-      addClient({
-        clients: [
-          {
-            _project_id: uuidv1(),
-            title: clientName,
-          },
-        ],
-      })
-    );
+    clients.forEach((client) => {
+      if (client.title == clientName) {
+        setShowToast(true);
+        setFormError((prev) => true);
+        setTimeout(() => {
+          setShowToast(false);
+        }, 4000);
+        return;
+      }
+    });
+    
+    !formError &&
+      dispatch(
+        addClient({
+          clients: [
+            {
+              _project_id: uuidv1(),
+              title: clientName,
+            },
+          ],
+        })
+      );
     setShowAddNewClient(false);
   };
 
@@ -91,6 +108,22 @@ const AddNewClient = () => {
             </div>
           </form>
         </div>
+      )}
+
+      {showToast && (
+        <Toast
+          className={`${
+            showToast ? "opacity-100" : "opacity-0"
+          } fixed left-5 bottom-20`}
+        >
+          <div className="inline-flex h-8 w-8 shrink-0 items-center justify-center rounded-lg bg-red-100 text-red-500 dark:bg-red-800 dark:text-red-200">
+            <HiX className="h-5 w-5" />
+          </div>
+          <div className="ml-auto text-sm font-normal">
+            Client already exist.
+          </div>
+          <Toast.Toggle />
+        </Toast>
       )}
     </div>
   );

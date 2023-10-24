@@ -3,20 +3,23 @@
 import Button from "@/app/components/Button";
 import { useState } from "react";
 import { MdCampaign } from "react-icons/md";
+import { IoTrash } from "react-icons/io5";
 import AddEditNewCampaign from "../AddEditNewCampaign";
-import { useAppSelector } from "@/redux/store";
+import { AppDispatch, useAppSelector } from "@/redux/store";
 import CampaignItems from "@/types/campaigns";
 import ProjectItems from "@/types/project";
+import { useDispatch } from "react-redux";
+import { removeClient } from "@/redux/features/projectsSlice";
 
 type props = {
   item: ProjectItems;
 };
 
 const Campaign = (props: props) => {
+  const dispatch = useDispatch<AppDispatch>();
+
   const ProjectTitle = props.item.title;
-  console.log(ProjectTitle);
   const projectID = useAppSelector((state) => {
-    console.log(state.projectReducer.clients);
     const projctIndex = state.projectReducer.clients.findIndex(
       (project) => project.title === ProjectTitle
     );
@@ -42,10 +45,23 @@ const Campaign = (props: props) => {
     setShowAddNewCampaign(false);
   };
 
+  const onRemoveClient = (clientID: string, clientName: string) => {
+    const userResponse = confirm(
+      "Are you sure, you want to remove " +
+        clientName +
+        " and all of the associated campaigns and plans? (Note: This action is irreversible)"
+    );
+
+    if (userResponse) {
+      dispatch(removeClient(clientID));
+    }
+  };
+
   return (
-    <div className="mb-20">
+    <div className="mb-20 border-b pb-3">
       <div className="flex justify-between mb-3">
         <h1 className="text-2xl pl-2">{ProjectTitle}</h1>
+
         <Button onClick={handleAddNewCampaign} className="text-xs">
           New Campaign <MdCampaign />
         </Button>
@@ -111,6 +127,18 @@ const Campaign = (props: props) => {
             )}
           </tbody>
         </table>
+      </div>
+      <div className="text-right mt-4">
+        <Button
+          view="plain"
+          title="Remove Client"
+          className="text-red-500 text-lg"
+          onClick={() =>
+            onRemoveClient(props.item._project_id, props.item.title)
+          }
+        >
+          <IoTrash />
+        </Button>
       </div>
     </div>
   );

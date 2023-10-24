@@ -11,20 +11,60 @@ const initialState = {} as InitialState;
 export const fetchClients = createAsyncThunk(
   "addashboard/clients",
   async () => {
-    const allClients = fetchAllItems();
+    const allClients = await fetchAllItems();
     return allClients;
   }
 );
 
 export const addClient = createAsyncThunk(
-  "addashboard/addupdclient",
+  "addashboard/addclient",
   async (clients: InitialState) => {
-    const response: InitialState = await fetch("/api/addupdclient", {
+    const response: InitialState = await fetch("/api/addclient", {
       method: "POST",
       body: JSON.stringify(clients),
     }).then((data) => data.json());
 
-    const allClients = fetchAllItems();
+    const allClients = await fetchAllItems();
+    return allClients;
+  }
+);
+
+export const updCampaign = createAsyncThunk(
+  "addashboard/addupdatecampaign",
+  async (clients: InitialState) => {
+    const response: InitialState = await fetch("/api/addupdatecampaign", {
+      method: "POST",
+      body: JSON.stringify(clients),
+    }).then((data) => data.json());
+
+    const allClients = await fetchAllItems();
+    return allClients;
+  }
+);
+
+export const addupdateplan = createAsyncThunk(
+  "addashboard/addupdateplan",
+  async (clients: InitialState) => {
+    const response: InitialState = await fetch("/api/addupdateplan", {
+      method: "POST",
+      body: JSON.stringify(clients),
+    }).then((data) => data.json());
+
+    const allClients = await fetchAllItems();
+    return allClients;
+  }
+);
+
+export const removeClient = createAsyncThunk(
+  "addashboard/removeClient",
+  async (projectID: String) => {
+    const response: InitialState = await fetch(
+      "/api/removeclient/" + projectID,
+      {
+        method: "PUT",
+      }
+    ).then((data) => data.json());
+    const allClients = await fetchAllItems();
     return allClients;
   }
 );
@@ -33,27 +73,6 @@ export const clients = createSlice({
   name: "clients",
   initialState,
   reducers: {
-    addNewProject: (state, action: PayloadAction<InitialState>) => {
-      //do not add if Project already exists in store
-      if (
-        state.clients?.find(
-          (project) => project.title === action.payload.clients[0].title
-        )
-      ) {
-        return;
-      }
-
-      if (!state.clients) {
-        return {
-          clients: [action.payload.clients[0]],
-        };
-      }
-
-      return {
-        clients: [...state?.clients, action.payload.clients[0]],
-      };
-    },
-
     addUpdCampaign: (state, action: PayloadAction<InitialState>) => {
       const index = state.clients?.findIndex((project) => {
         return project._project_id == action.payload.clients[0]._project_id;
@@ -109,6 +128,9 @@ export const clients = createSlice({
   },
 
   extraReducers: (builder) => {
+    /*
+     * Handle promises for fetching all client
+     */
     builder.addCase(fetchClients.pending, (state, { payload }) => {
       state.loading = true;
     });
@@ -119,13 +141,55 @@ export const clients = createSlice({
       return state;
     });
 
+    /*
+     * Handle promise when adding a new client
+     */
     builder.addCase(addClient.fulfilled, (state, { payload }) => {
       state.clients = payload;
+      return state;
+    });
+
+    /*
+     * Handle promise when removing a client
+     */
+    builder.addCase(removeClient.fulfilled, (state, { payload }) => {
+      state.clients = payload;
+      return state;
+    });
+
+    /*
+     * Handle promises for Campaign updates
+     */
+    builder.addCase(updCampaign.pending, (state) => {
+      state.loading = false;
+      return state;
+    });
+
+    builder.addCase(updCampaign.fulfilled, (state, { payload }) => {
+      state.clients = payload;
+      state.loading = false;
+      return state;
+    });
+
+    /*
+     * Handle promises for Plan updates
+     */
+    builder.addCase(addupdateplan.pending, (state) => {
+      state.loading = false;
+      return state;
+    });
+
+    builder.addCase(addupdateplan.fulfilled, (state, { payload }) => {
+      state.clients = payload;
+      state.loading = false;
       return state;
     });
   },
 });
 
+/*
+ * Helper method to fetch all clients
+ */
 const fetchAllItems = async () => {
   const response: InitialState = await fetch("/api/clients").then((data) =>
     data.json()
@@ -133,5 +197,5 @@ const fetchAllItems = async () => {
   return response.clients;
 };
 
-export const { addNewProject, addUpdCampaign, addUpdPlan } = clients.actions;
+export const { addUpdCampaign, addUpdPlan } = clients.actions;
 export default clients.reducer;
