@@ -11,3 +11,7 @@ type CampaignItems = {
 };
 
 export default CampaignItems;
+
+export type campaignID = {
+  _campaign_id: string;
+}

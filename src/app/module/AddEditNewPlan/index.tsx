@@ -1,10 +1,11 @@
 "use client";
 
 import Button from "@/app/components/Button";
-import { addupdateplan } from "@/redux/features/projectsSlice";
+import { addupdateplan, removePlan } from "@/redux/features/projectsSlice";
 import { AppDispatch } from "@/redux/store";
 import ProjectItems from "@/types/project";
 import { useEffect, useState } from "react";
+import { TbTrash } from "react-icons/tb";
 import { useDispatch } from "react-redux";
 import { v1 as uuidv1 } from "uuid";
 
@@ -207,6 +208,29 @@ const AddEditNewPlan = (props: props) => {
     }
   };
 
+  /*
+   *  Handle remove plan
+   */
+  const handleRemovePlan = (_plan_id: string) => {
+    const userResponse = confirm(
+      "Are you sure, you want to remove plan " +
+        plan.name +
+        "? (Note: This action is irreversible)"
+    );
+
+    if (userResponse) {
+      const planToRemove = {
+        _project_id: props.projectItems._project_id,
+        plans: [
+          {
+            _plan_id,
+          },
+        ],
+      };
+      dispatch(removePlan(planToRemove));
+    }
+  };
+
   return (
     <tr className="bg-white border-b h-32">
       <td
@@ -369,8 +393,7 @@ const AddEditNewPlan = (props: props) => {
           </div>
         )}
 
-        {toggleEditSavePlan &&
-          plan?.impression.toLocaleString("en-US")}
+        {toggleEditSavePlan && plan?.impression.toLocaleString("en-US")}
       </td>
 
       <td className="px-6 py-4">
@@ -458,9 +481,17 @@ const AddEditNewPlan = (props: props) => {
       </td>
 
       <td className="px-6 py-4">
-        <Button onClick={handleEditSave}>
-          {toggleEditSavePlan ? "Edit" : "Save"}
-        </Button>
+        <div className="my-auto flex gap-5 items-center">
+          <Button onClick={handleEditSave}>
+            {toggleEditSavePlan ? "Edit" : "Save"}
+          </Button>
+
+          <Button onClick={() => handleRemovePlan(plan._plan_id)} view="plain">
+            <span className="text-red-500 text-lg">
+              <TbTrash />
+            </span>
+          </Button>
+        </div>
       </td>
     </tr>
   );

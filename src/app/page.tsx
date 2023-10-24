@@ -20,7 +20,7 @@ export default function Home() {
   }, []);
 
   return (
-    <main className="pt-5 pb-10 px-10">
+    <main className="pt-5 pb-10 px-5 lg:px-10">
       <div className="justify-between bg-white rounded-md py-5 px-10 flex">
         <h1 className="pb-2">Pacing Dashboard</h1>
         <div>

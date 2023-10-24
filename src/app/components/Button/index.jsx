@@ -1,3 +1,4 @@
+"use client";
 import { Tooltip } from "react-tooltip";
 
 const Button = (props) => {
@@ -15,7 +16,7 @@ const Button = (props) => {
 
   ClassName = props.className ? props.className + " " + ClassName : ClassName;
 
-  const randomID = "button-" + Math.floor(Math.random() * 1000000000);
+  const randomID = "button-" + Math.floor(Math.random() * 1000000000) + "-id";
 
   return (
     <div className="inline-block relative">

@@ -1,4 +1,4 @@
-import ProjectItems from "@/types/project";
+import ProjectItems, { RemoveCampaign, RemovePlan } from "@/types/project";
 import { PayloadAction, createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 
 type InitialState = {
@@ -60,6 +60,40 @@ export const removeClient = createAsyncThunk(
   async (projectID: String) => {
     const response: InitialState = await fetch(
       "/api/removeclient/" + projectID,
+      {
+        method: "PUT",
+      }
+    ).then((data) => data.json());
+    const allClients = await fetchAllItems();
+    return allClients;
+  }
+);
+
+export const removeCampaign = createAsyncThunk(
+  "addashboard/removeCampaign",
+  async (clients: RemoveCampaign) => {
+    const response: InitialState = await fetch(
+      "/api/removecampaign/" +
+        clients._project_id +
+        "/" +
+        clients.campaigns[0]._campaign_id,
+      {
+        method: "PUT",
+      }
+    ).then((data) => data.json());
+    const allClients = await fetchAllItems();
+    return allClients;
+  }
+);
+
+export const removePlan = createAsyncThunk(
+  "addashboard/removePlan",
+  async (clients: RemovePlan) => {
+    const response: InitialState = await fetch(
+      "/api/removeplan/" +
+        clients._project_id +
+        "/" +
+        clients.plans[0]._plan_id,
       {
         method: "PUT",
       }
@@ -153,6 +187,22 @@ export const clients = createSlice({
      * Handle promise when removing a client
      */
     builder.addCase(removeClient.fulfilled, (state, { payload }) => {
+      state.clients = payload;
+      return state;
+    });
+
+    /*
+     * Handle promise when removing a campaign
+     */
+    builder.addCase(removeCampaign.fulfilled, (state, { payload }) => {
+      state.clients = payload;
+      return state;
+    });
+
+    /*
+     * Handle promise when removing a plan
+     */
+    builder.addCase(removePlan.fulfilled, (state, { payload }) => {
       state.clients = payload;
       return state;
     });

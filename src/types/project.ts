@@ -1,5 +1,5 @@
-import CampaignItems from "./campaigns";
-import PlanItems from "./planItems";
+import CampaignItems, { campaignID } from "./campaigns";
+import PlanItems, { planID } from "./planItems";
 
 type ProjectItems = {
   _project_id: string;
@@ -9,3 +9,13 @@ type ProjectItems = {
 };
 
 export default ProjectItems;
+
+export type RemoveCampaign = {
+  _project_id: string;
+  campaigns?: Array<campaignID>;
+};
+
+export type RemovePlan = {
+  _project_id: string;
+  plans?: Array<planID>;
+};

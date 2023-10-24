@@ -1,10 +1,11 @@
 "use client";
 
 import Button from "@/app/components/Button";
-import { updCampaign } from "@/redux/features/projectsSlice";
+import { removeCampaign, updCampaign } from "@/redux/features/projectsSlice";
 import { AppDispatch, useAppSelector } from "@/redux/store";
 import ProjectItems from "@/types/project";
 import { useEffect, useState } from "react";
+import { TbTrash } from "react-icons/tb";
 import { useDispatch } from "react-redux";
 import { v1 as uuidv1 } from "uuid";
 
@@ -247,6 +248,29 @@ const AddEditNewCampaign = (props: props) => {
     }
   };
 
+  /*
+   *  Handle remove campaign
+   */
+  const handleRemoveCampaign = (_campaign_id: string) => {
+    const userResponse = confirm(
+      "Are you sure, you want to remove campaign " +
+        campaign.title +
+        "? (Note: This action is irreversible)"
+    );
+
+    if (userResponse) {
+      const campaignToRemove = {
+        _project_id: props.ProjectItems._project_id,
+        campaigns: [
+          {
+            _campaign_id,
+          },
+        ],
+      };
+      dispatch(removeCampaign(campaignToRemove));
+    }
+  };
+
   return (
     <tr className="bg-white border-b h-32">
       <td
@@ -406,9 +430,20 @@ const AddEditNewCampaign = (props: props) => {
             })}
       </td>
       <td className="px-6 py-4">
-        <Button onClick={handleEditSave}>
-          {toggleEditSaveCampaign ? "Edit" : "Save"}
-        </Button>
+        <div className="my-auto flex gap-5 items-center">
+          <Button onClick={handleEditSave}>
+            {toggleEditSaveCampaign ? "Edit" : "Save"}
+          </Button>
+
+          <Button
+            onClick={() => handleRemoveCampaign(campaign._campaign_id)}
+            view="plain"
+          >
+            <span className="text-red-500 text-lg">
+              <TbTrash />
+            </span>
+          </Button>
+        </div>
       </td>
     </tr>
   );
