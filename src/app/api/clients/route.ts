@@ -2,7 +2,7 @@ import { connectMongoDB } from "lib/mongodb";
 import MDBClient from "models/MDBClients";
 import { NextResponse } from "next/server";
 
-export async function GET() {
+export async function GET(request: Request) {
   await connectMongoDB();
   try {
     const clients = await MDBClient.find({});
