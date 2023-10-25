@@ -3,20 +3,21 @@
 import { AppDispatch, useAppSelector } from "@/redux/store";
 import AdPlan from "../module/AdPlan";
 import AddNewClient from "../module/AddNewClient";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { fetchClients } from "@/redux/features/projectsSlice";
 import { useDispatch } from "react-redux";
 import { AiOutlineLoading3Quarters } from "react-icons/ai";
-import { PiFolderUserLight } from "react-icons/pi";
+import { PiFolderUserLight, PiSpinner } from "react-icons/pi";
+import ClientSkeleton from "../components/ClientSkeleton";
 
 export default function Home() {
   const { clients, loading } = useAppSelector((state) => state.projectReducer);
   const dispatch = useDispatch<AppDispatch>();
 
   useEffect(() => {
-    {
-      (!clients || clients?.length == 0) && dispatch(fetchClients());
-    }
+    (async () => {
+      (!clients || clients?.length == 0) && (await dispatch(fetchClients()));
+    })();
   }, []);
 
   return (
@@ -52,13 +53,7 @@ export default function Home() {
         </div>
       )}
 
-      {(loading || loading == undefined) && (
-        <div className="h-full fixed w-full justify-center left-0 top-0 flex items-center">
-          <span className="animate-spin text-3xl">
-            <AiOutlineLoading3Quarters />
-          </span>
-        </div>
-      )}
+      {loading && <ClientSkeleton />}
     </main>
   );
 }

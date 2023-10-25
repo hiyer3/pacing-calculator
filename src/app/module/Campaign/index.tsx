@@ -12,20 +12,23 @@ import { useDispatch } from "react-redux";
 import { removeClient } from "@/redux/features/projectsSlice";
 
 type props = {
-  item: ProjectItems;
+  item?: ProjectItems;
+  loading: Boolean;
 };
 
 const Campaign = (props: props) => {
   const dispatch = useDispatch<AppDispatch>();
 
-  const ProjectTitle = props.item.title;
-  const projectID = useAppSelector((state) => {
-    const projctIndex = state.projectReducer.clients.findIndex(
-      (project) => project.title === ProjectTitle
-    );
+  const ProjectTitle = props.item?.title;
+  const projectID =
+    !props.loading &&
+    useAppSelector((state) => {
+      const projctIndex = state.projectReducer.clients.findIndex(
+        (project) => project.title === ProjectTitle
+      );
 
-    return state.projectReducer.clients[projctIndex]._project_id;
-  });
+      return state.projectReducer.clients[projctIndex]._project_id;
+    });
 
   const [showAddNewCampaign, setShowAddNewCampaign] = useState(false);
 
@@ -33,13 +36,15 @@ const Campaign = (props: props) => {
     setShowAddNewCampaign(true);
   };
 
-  const campaigns = useAppSelector((state) => {
-    const projectIndex = state.projectReducer.clients.findIndex(
-      (project) => project.title === ProjectTitle
-    );
+  const campaigns =
+    !props.loading &&
+    useAppSelector((state) => {
+      const projectIndex = state.projectReducer.clients.findIndex(
+        (project) => project.title === ProjectTitle
+      );
 
-    return state.projectReducer.clients[projectIndex].campaigns;
-  });
+      return state.projectReducer.clients[projectIndex].campaigns;
+    });
 
   const onCampaignAdded = () => {
     setShowAddNewCampaign(false);
@@ -62,59 +67,63 @@ const Campaign = (props: props) => {
       <div className="flex justify-between mb-3">
         <h1 className="text-2xl pl-2">{ProjectTitle}</h1>
 
-        <Button onClick={handleAddNewCampaign} className="text-xs">
-          New Campaign <MdCampaign />
-        </Button>
+        {!props.loading && (
+          <Button onClick={handleAddNewCampaign} className="text-xs">
+            New Campaign <MdCampaign />
+          </Button>
+        )}
       </div>
 
       <div className="relative overflow-x-auto shadow-md sm:rounded-lg px-5">
         <table className="w-full my-5 text-sm text-left text-gray-500">
-          <thead className="text-xs text-gray-700 uppercase bg-gray-50 ">
+          <thead className="text-xs text-gray-700 uppercase bg-gray-100 border">
             <tr>
-              <th scope="col" className="px-6 py-3">
+              <th scope="col" className="px-6 py-3 text-center">
                 Campaign Name
               </th>
-              <th scope="col" className="px-6 py-3">
+              <th scope="col" className="px-6 py-3 text-center">
                 Source
               </th>
-              <th scope="col" className="px-6 py-3">
+              <th scope="col" className="px-6 py-3 text-center">
                 Start Date
               </th>
-              <th scope="col" className="px-6 py-3">
+              <th scope="col" className="px-6 py-3 text-center">
                 End Date
               </th>
-              <th scope="col" className="px-6 py-3">
+              <th scope="col" className="px-6 py-3 text-center">
                 Gross Budget
               </th>
-              <th scope="col" className="px-6 py-3">
+              <th scope="col" className="px-6 py-3 text-center">
                 Commissions
               </th>
-              <th scope="col" className="px-6 py-3">
+              <th scope="col" className="px-6 py-3 text-center">
                 Pacing
               </th>
-              <th scope="col" className="px-6 py-3">
+              <th scope="col" className="px-6 py-3 text-center">
                 Daily Spend
               </th>
-              <th scope="col" className="px-6 py-3">
+              <th scope="col" className="px-6 py-3 text-center">
                 Action
               </th>
             </tr>
           </thead>
 
           <tbody>
-            {campaigns?.map((campaign: CampaignItems, index: number) => {
-              return (
-                <AddEditNewCampaign
-                  key={index}
-                  onCampaignAdded={onCampaignAdded}
-                  ProjectItems={{
-                    _project_id: projectID,
-                    title: ProjectTitle,
-                    campaigns: [campaign],
-                  }}
-                />
-              );
-            })}
+            {!props.loading &&
+              campaigns?.map((campaign: CampaignItems, index: number) => {
+                return (
+                  <AddEditNewCampaign
+                    key={index}
+                    className={`${index % 2 ? "bg-gray-50" : "bg-white"}`}
+                    onCampaignAdded={onCampaignAdded}
+                    ProjectItems={{
+                      _project_id: projectID,
+                      title: ProjectTitle,
+                      campaigns: [campaign],
+                    }}
+                  />
+                );
+              })}
             {showAddNewCampaign && (
               <AddEditNewCampaign
                 onCampaignAdded={onCampaignAdded}

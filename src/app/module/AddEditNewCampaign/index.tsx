@@ -12,6 +12,7 @@ import { v1 as uuidv1 } from "uuid";
 type props = {
   ProjectItems: ProjectItems;
   onCampaignAdded?: Function;
+  className?: string;
 };
 
 type formErrors = {
@@ -272,10 +273,10 @@ const AddEditNewCampaign = (props: props) => {
   };
 
   return (
-    <tr className="bg-white border-b h-32">
+    <tr className={`${props.className} border-b`}>
       <td
         scope="row"
-        className="px-6 py-4 font-medium text-gray-900 whitespace-nowrap"
+        className="px-6 py-2 text-center border-r font-medium text-gray-900 whitespace-nowrap"
       >
         {!toggleEditSaveCampaign && (
           <div className="relative">
@@ -296,7 +297,7 @@ const AddEditNewCampaign = (props: props) => {
 
         {toggleEditSaveCampaign && campaign?.title}
       </td>
-      <td className="px-6 py-4">
+      <td className="px-6 py-2 text-center border-r">
         {!toggleEditSaveCampaign && (
           <div className="relative">
             <input
@@ -316,7 +317,7 @@ const AddEditNewCampaign = (props: props) => {
 
         {toggleEditSaveCampaign && campaign?.source}
       </td>
-      <td className="px-6 py-4">
+      <td className="px-6 py-2 text-center border-r">
         {!toggleEditSaveCampaign && (
           <div className="relative">
             <input
@@ -335,7 +336,7 @@ const AddEditNewCampaign = (props: props) => {
 
         {toggleEditSaveCampaign && campaign?.startDate}
       </td>
-      <td className="px-6 py-4">
+      <td className="px-6 py-2 text-center border-r">
         {!toggleEditSaveCampaign && (
           <div className="relative">
             <input
@@ -354,7 +355,7 @@ const AddEditNewCampaign = (props: props) => {
 
         {toggleEditSaveCampaign && campaign?.endDate}
       </td>
-      <td className="px-6 py-4">
+      <td className="px-6 py-2 text-center border-r">
         {!toggleEditSaveCampaign && (
           <div className="relative w-32">
             <input
@@ -381,7 +382,7 @@ const AddEditNewCampaign = (props: props) => {
             currency: "USD",
           })}
       </td>
-      <td className="px-6 py-4">
+      <td className="px-6 py-2 text-center border-r">
         {!toggleEditSaveCampaign && (
           <div className="relative w-32">
             <input
@@ -407,7 +408,7 @@ const AddEditNewCampaign = (props: props) => {
 
         {toggleEditSaveCampaign && campaign?.commissions + "%"}
       </td>
-      <td className="px-6 py-4">
+      <td className="px-6 py-2 text-center border-r">
         {!toggleEditSaveCampaign && (
           <select onChange={(ev) => setPacing(ev.target.value)} value={pacing}>
             <option>Fast</option>
@@ -418,7 +419,7 @@ const AddEditNewCampaign = (props: props) => {
 
         {toggleEditSaveCampaign && campaign?.pacing}
       </td>
-      <td className="px-6 py-4">
+      <td className="px-6 py-2 text-center border-r">
         {result
           ? result.toLocaleString("en-US", {
               style: "currency",
@@ -429,8 +430,8 @@ const AddEditNewCampaign = (props: props) => {
               currency: "USD",
             })}
       </td>
-      <td className="px-6 py-4">
-        <div className="my-auto flex gap-5 items-center">
+      <td className="px-6 py-2 text-center">
+        <div className="my-auto flex gap-5 items-center justify-center mx-auto">
           <Button onClick={handleEditSave}>
             {toggleEditSaveCampaign ? "Edit" : "Save"}
           </Button>

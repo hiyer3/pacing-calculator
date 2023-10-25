@@ -12,6 +12,7 @@ import { v1 as uuidv1 } from "uuid";
 type props = {
   projectItems: ProjectItems;
   onPlanAdded?: Function;
+  className?: string;
 };
 
 type formErrors = {
@@ -232,10 +233,10 @@ const AddEditNewPlan = (props: props) => {
   };
 
   return (
-    <tr className="bg-white border-b h-32">
+    <tr className={`${props.className} border-b`}>
       <td
         scope="row"
-        className="px-6 py-4 font-medium text-gray-900 whitespace-nowrap"
+        className="px-6 py-2 font-medium text-gray-900 whitespace-nowrap border-r"
       >
         {!toggleEditSavePlan && (
           <div className="relative">
@@ -257,7 +258,7 @@ const AddEditNewPlan = (props: props) => {
         {toggleEditSavePlan && plan?.name}
       </td>
 
-      <td className="px-6 py-4">
+      <td className="px-6 py-2 border-r text-center">
         {!toggleEditSavePlan && (
           <div className="relative">
             <input
@@ -278,7 +279,7 @@ const AddEditNewPlan = (props: props) => {
         {toggleEditSavePlan && plan?.platform}
       </td>
 
-      <td className="px-6 py-4">
+      <td className="px-6 py-2 border-r text-center">
         {!toggleEditSavePlan && (
           <select
             onChange={(ev) => setCampaignType(ev.target.value)}
@@ -293,7 +294,7 @@ const AddEditNewPlan = (props: props) => {
         {toggleEditSavePlan && plan?.adtype}
       </td>
 
-      <td className="px-6 py-4">
+      <td className="px-6 py-2 border-r text-center">
         {!toggleEditSavePlan && (
           <div className="relative w-32">
             <input
@@ -320,7 +321,7 @@ const AddEditNewPlan = (props: props) => {
           })}
       </td>
 
-      <td className="px-6 py-4">
+      <td className="px-6 py-2 border-r text-center">
         {!toggleEditSavePlan && (
           <div className="relative w-32">
             <input
@@ -347,7 +348,7 @@ const AddEditNewPlan = (props: props) => {
         {toggleEditSavePlan && plan?.commissions + "%"}
       </td>
 
-      <td className="px-6 py-4">
+      <td className="px-6 py-2 border-r text-center">
         {!toggleEditSavePlan && (
           <div className="relative w-32">
             <input
@@ -375,7 +376,7 @@ const AddEditNewPlan = (props: props) => {
           })}
       </td>
 
-      <td className="px-6 py-4">
+      <td className="px-6 py-2 border-r text-center">
         {!toggleEditSavePlan && (
           <div className="relative w-32">
             <input
@@ -396,7 +397,7 @@ const AddEditNewPlan = (props: props) => {
         {toggleEditSavePlan && plan?.impression.toLocaleString("en-US")}
       </td>
 
-      <td className="px-6 py-4">
+      <td className="px-6 py-2 border-r text-center">
         {!toggleEditSavePlan && (
           <div className="relative w-32">
             <input
@@ -417,7 +418,7 @@ const AddEditNewPlan = (props: props) => {
         {toggleEditSavePlan && plan?.cpm.toLocaleString("en-US")}
       </td>
 
-      <td className="px-6 py-4">
+      <td className="px-6 py-2 border-r text-center">
         {!toggleEditSavePlan && (
           <div className="relative w-32">
             <input
@@ -438,7 +439,7 @@ const AddEditNewPlan = (props: props) => {
         {toggleEditSavePlan && plan?.clicks.toLocaleString("en-US")}
       </td>
 
-      <td className="px-6 py-4">
+      <td className="px-6 py-2 border-r text-center">
         {!toggleEditSavePlan && (
           <div className="relative w-32">
             <input
@@ -459,7 +460,7 @@ const AddEditNewPlan = (props: props) => {
         {toggleEditSavePlan && plan?.cpc.toLocaleString("en-US")}
       </td>
 
-      <td className="px-6 py-4">
+      <td className="px-6 py-2 border-r text-center">
         {!toggleEditSavePlan && (
           <div className="relative w-32">
             <input
@@ -480,7 +481,7 @@ const AddEditNewPlan = (props: props) => {
         {toggleEditSavePlan && plan?.reach.toLocaleString("en-US")}
       </td>
 
-      <td className="px-6 py-4">
+      <td className="px-6 py-2 text-center">
         <div className="my-auto flex gap-5 items-center">
           <Button onClick={handleEditSave}>
             {toggleEditSavePlan ? "Edit" : "Save"}

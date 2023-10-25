@@ -14,11 +14,15 @@ export const metadata = {
 export default function RootLayout({ children }) {
   return (
     <html lang="en">
-      <body className={`${inter.className} bg-gray-50 flex flex-col min-h-screen`}>
+      <body className={`${inter.className} bg-gray-50`}>
         <ReduxProvider>
-          <NavBar />
-          {children}
-          <Footer />
+          <div className="flex">
+            <NavBar />
+            <div className="w-full mt-16 lg:pl-16 flex flex-col min-h-[92vh]">
+              {children}
+              <Footer />
+            </div>
+          </div>
         </ReduxProvider>
       </body>
     </html>

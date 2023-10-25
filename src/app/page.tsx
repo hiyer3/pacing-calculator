@@ -3,10 +3,10 @@
 import { useDispatch } from "react-redux";
 import AddNewClient from "./module/AddNewClient";
 import Campaign from "./module/Campaign";
+import ClientSkeleton from "./components/ClientSkeleton";
 import { AppDispatch, useAppSelector } from "@/redux/store";
 import { useEffect } from "react";
 import { fetchClients } from "@/redux/features/projectsSlice";
-import { AiOutlineLoading3Quarters } from "react-icons/ai";
 import { PiFolderUserLight } from "react-icons/pi";
 
 export default function Home() {
@@ -14,9 +14,9 @@ export default function Home() {
   const dispatch = useDispatch<AppDispatch>();
 
   useEffect(() => {
-    {
-      (!clients || clients?.length == 0) && dispatch(fetchClients());
-    }
+    (async () => {
+      (!clients || clients?.length == 0) && (await dispatch(fetchClients()));
+    })();
   }, []);
 
   return (
@@ -33,7 +33,7 @@ export default function Home() {
           className="my-10 pt-8 pb-2 px-10 bg-white rounded-md"
         >
           {clients?.map((client, i) => (
-            <Campaign key={i} item={client}></Campaign>
+            <Campaign loading={loading} key={i} item={client}></Campaign>
           ))}
 
           {(!clients || clients?.length == 0) &&
@@ -52,13 +52,7 @@ export default function Home() {
         </div>
       )}
 
-      {(loading || loading == undefined) && (
-        <div className="h-full fixed w-full justify-center left-0 top-0 flex items-center">
-          <span className="animate-spin text-3xl">
-            <AiOutlineLoading3Quarters />
-          </span>
-        </div>
-      )}
+      {loading && <ClientSkeleton />}
     </main>
   );
 }

@@ -55,42 +55,42 @@ const AdPlan = (props: props) => {
 
       <div className="relative overflow-x-auto shadow-md sm:rounded-lg px-5">
         <table className="w-full my-5 text-sm text-left text-gray-500">
-          <thead className="text-xs text-gray-700 uppercase bg-gray-50 ">
+          <thead className="text-xs border text-gray-700 uppercase bg-gray-100 ">
             <tr>
-              <th scope="col" className="px-6 py-3">
+              <th scope="col" className="px-6 py-3 text-center">
                 Name
               </th>
-              <th scope="col" className="px-6 py-3">
+              <th scope="col" className="px-6 py-3 text-center">
                 Platform
               </th>
-              <th scope="col" className="px-6 py-3">
+              <th scope="col" className="px-6 py-3 text-center">
                 Type
               </th>
-              <th scope="col" className="px-6 py-3">
+              <th scope="col" className="px-6 py-3 text-center">
                 Gross Spend
               </th>
-              <th scope="col" className="px-6 py-3">
+              <th scope="col" className="px-6 py-3 text-center">
                 Commissions
               </th>
-              <th scope="col" className="px-6 py-3">
+              <th scope="col" className="px-6 py-3 text-center">
                 Net Spend
               </th>
-              <th scope="col" className="px-6 py-3">
+              <th scope="col" className="px-6 py-3 text-center">
                 Impressions
               </th>
-              <th scope="col" className="px-6 py-3">
-                Cost per Mille (CPM)
+              <th scope="col" className="px-6 py-3 text-center">
+                CPM
               </th>
-              <th scope="col" className="px-6 py-3">
+              <th scope="col" className="px-6 py-3 text-center">
                 Clicks
               </th>
-              <th scope="col" className="px-6 py-3">
-                Cost per Click (CPC)
+              <th scope="col" className="px-6 py-3 text-center">
+                CPC
               </th>
-              <th scope="col" className="px-6 py-3">
+              <th scope="col" className="px-6 py-3 text-center">
                 Reach
               </th>
-              <th scope="col" className="px-6 py-3">
+              <th scope="col" className="px-6 py-3 text-center">
                 Action
               </th>
             </tr>
@@ -102,6 +102,7 @@ const AdPlan = (props: props) => {
                 <AddEditNewPlan
                   key={index}
                   onPlanAdded={onPlanAdded}
+                  className={`${index % 2 ? "bg-gray-50" : "bg-white"}`}
                   projectItems={{
                     _project_id: projectID,
                     title: ProjectTitle,
