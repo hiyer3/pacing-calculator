@@ -27,28 +27,31 @@ const AddNewClient = () => {
     ev.preventDefault();
     setFormError(false);
 
-    clients.forEach((client) => {
-      if (client.title == clientName) {
-        setShowToast(true);
-        setFormError((prev) => true);
-        setTimeout(() => {
-          setShowToast(false);
-        }, 4000);
-        return;
-      }
-    });
-    
-    !formError &&
-      dispatch(
-        addClient({
-          clients: [
-            {
-              _project_id: uuidv1(),
-              title: clientName,
-            },
-          ],
-        })
-      );
+    const clientExistIndex = clients.findIndex(
+      (client) => client.title == clientName
+    );
+    console.log(clientExistIndex);
+
+    if (clientExistIndex != -1) {
+      setShowToast(true);
+      setTimeout(() => {
+        setShowToast(false);
+      }, 4000);
+      return;
+    }
+
+    dispatch(
+      addClient({
+        clients: [
+          {
+            _project_id: uuidv1(),
+            title: clientName,
+            campaigns: [],
+            plans: [],
+          },
+        ],
+      })
+    );
     setShowAddNewClient(false);
   };
 
@@ -114,13 +117,13 @@ const AddNewClient = () => {
         <Toast
           className={`${
             showToast ? "opacity-100" : "opacity-0"
-          } fixed left-5 bottom-20`}
+          } fixed w-80 left-5 bottom-20`}
         >
           <div className="inline-flex h-8 w-8 shrink-0 items-center justify-center rounded-lg bg-red-100 text-red-500 dark:bg-red-800 dark:text-red-200">
             <HiX className="h-5 w-5" />
           </div>
           <div className="ml-auto text-sm font-normal">
-            Client already exist.
+            Client already exists
           </div>
           <Toast.Toggle />
         </Toast>

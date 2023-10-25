@@ -1,11 +1,7 @@
-"use client";
-
 import Link from "next/link";
-import { useState } from "react";
-import { FaBarsStaggered } from "react-icons/fa6";
 import { IoIosSpeedometer } from "react-icons/io";
 import { BsFillCalendarRangeFill } from "react-icons/bs";
-import { AiOutlineClose, AiOutlineForm } from "react-icons/ai";
+import { AiOutlineForm } from "react-icons/ai";
 import { BiSolidLogIn } from "react-icons/bi";
 
 const SystemSidebar = (props) => {
